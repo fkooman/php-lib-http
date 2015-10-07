@@ -29,6 +29,7 @@ class MethodNotAllowedExceptionTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 405 Method Not Allowed',
                 'Content-Type: application/json',
+                'Content-Length: 39',
                 'Allow: GET,POST',
                 '',
                 '{"error":"method DELETE not supported"}',
@@ -55,6 +56,7 @@ class MethodNotAllowedExceptionTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 405 Method Not Allowed',
                 'Content-Type: application/json',
+                'Content-Length: 36',
                 '',
                 '{"error":"method GET not supported"}',
             ),

@@ -56,6 +56,7 @@ class Response
     public function setBody($body)
     {
         $this->body = $body;
+        $this->setHeader('Content-Length', strlen($body));
     }
 
     /**

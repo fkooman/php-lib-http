@@ -36,6 +36,7 @@ class HttpExceptionTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 404 Not Found',
                 'Content-Type: text/html;charset=UTF-8',
+                'Content-Length: 161',
                 '',
                 '<!DOCTYPE HTML><html><head><meta charset="utf-8"><title>404 Not Found</title></head><body><h1>Not Found</h1><p>xyz&amp;&#039; (foo_description)</p></body></html>',
             ),

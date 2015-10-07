@@ -33,6 +33,7 @@ class UnauthorizedExceptionTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 401 Unauthorized',
                 'Content-Type: application/json',
+                'Content-Length: 82',
                 'Www-Authenticate: Basic realm="Foo"',
                 '',
                 '{"error":"invalid credentials","error_description":"invalid username or password"}',
@@ -71,6 +72,7 @@ class UnauthorizedExceptionTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 401 Unauthorized',
                 'Content-Type: application/json',
+                'Content-Length: 75',
                 'Www-Authenticate: Bearer realm="My OAuth Realm",error="invalid_token",error_description="token is invalid or expired"',
                 '',
                 '{"error":"invalid_token","error_description":"token is invalid or expired"}',

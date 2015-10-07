@@ -30,6 +30,7 @@ class JsonResponseTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
+                'Content-Length: 13',
                 '',
                 '{"foo":"bar"}',
             ),

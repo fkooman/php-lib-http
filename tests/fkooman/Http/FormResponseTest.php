@@ -30,6 +30,7 @@ class FormResponseTest extends PHPUnit_Framework_TestCase
             array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/x-www-form-urlencoded',
+                'Content-Length: 7',
                 '',
                 'foo=bar',
             ),
