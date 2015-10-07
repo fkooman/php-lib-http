@@ -40,17 +40,6 @@ class UnauthorizedExceptionTest extends PHPUnit_Framework_TestCase
             ),
             $e->getJsonResponse()->toArray()
         );
-
-#        $response = $e->getJsonResponse();
-#        $this->assertSame(401, $response->getStatusCode());
-#        $this->assertSame('Basic realm="Foo"', $response->getHeader('WWW-Authenticate'));
-#        $this->assertSame(
-#            array(
-#                'error' => 'invalid credentials',
-#                'error_description' => 'invalid username or password',
-#            ),
-#            $response->getBody()
-#        );
     }
 
     public function testAdditionalAuthParams()
@@ -79,19 +68,5 @@ class UnauthorizedExceptionTest extends PHPUnit_Framework_TestCase
             ),
             $e->getJsonResponse()->toArray()
         );
-
-#        $response = $e->getJsonResponse();
-#        $this->assertSame(401, $response->getStatusCode());
-#        $this->assertSame(
-#            'Bearer realm="My OAuth Realm",error="invalid_token",error_description="token is invalid or expired"',
-#            $response->getHeader('WWW-Authenticate')
-#        );
-#        $this->assertSame(
-#            array(
-#                'error' => 'invalid_token',
-#                'error_description' => 'token is invalid or expired',
-#            ),
-#            $response->getBody()
-#        );
     }
 }

@@ -36,9 +36,5 @@ class FormResponseTest extends PHPUnit_Framework_TestCase
             ),
             $h->toArray()
         );
-
-    #        $this->assertSame(200, $h->getStatusCode());
-    #        $this->assertSame('application/x-www-form-urlencoded', $h->getHeader('Content-Type'));
-    #        $this->assertSame(array('foo' => 'bar'), $h->getBody());
     }
 }

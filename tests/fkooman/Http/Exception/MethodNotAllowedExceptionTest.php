@@ -36,16 +36,6 @@ class MethodNotAllowedExceptionTest extends PHPUnit_Framework_TestCase
             ),
             $e->getJsonResponse()->toArray()
         );
-
-#        $response = $e->getJsonResponse();
-#        $this->assertSame(405, $response->getStatusCode());
-#        $this->assertSame('GET,POST', $response->getHeader('Allow'));
-#        $this->assertSame(
-#            array(
-#                'error' => 'method DELETE not supported',
-#            ),
-#            $response->getBody()
-#        );
     }
 
     public function testNoMethodAllowed()
@@ -62,15 +52,5 @@ class MethodNotAllowedExceptionTest extends PHPUnit_Framework_TestCase
             ),
             $e->getJsonResponse()->toArray()
         );
-
-#        $response = $e->getJsonResponse();
-#        $this->assertSame(405, $response->getStatusCode());
-#        $this->assertNull($response->getHeader('Allow'));
-#        $this->assertSame(
-#            array(
-#                'error' => 'method GET not supported',
-#            ),
-#            $response->getBody()
-#        );
     }
 }

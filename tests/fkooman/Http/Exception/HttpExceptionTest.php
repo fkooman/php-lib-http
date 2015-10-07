@@ -42,7 +42,5 @@ class HttpExceptionTest extends PHPUnit_Framework_TestCase
             ),
             $e->getHtmlResponse()->toArray()
         );
-
-#        $this->assertSame('<!DOCTYPE HTML><html><head><meta charset="utf-8"><title>404 Not Found</title></head><body><h1>Not Found</h1><p>xyz&amp;&#039; (foo_description)</p></body></html>', $e->getHtmlResponse()->getBody());
     }
 }

@@ -32,9 +32,6 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
             ),
             $h->toArray()
         );
-
-#        $this->assertSame(301, $h->getStatusCode());
-#        $this->assertSame('http://www.example.org/redirect', $h->getHeader('Location'));
     }
 
     public function testRedirect302Response()
@@ -50,7 +47,5 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
             ),
             $h->toArray()
         );
-#        $this->assertSame(302, $h->getStatusCode());
-#        $this->assertSame('http://www.example.org/redirect302', $h->getHeader('Location'));
     }
 }

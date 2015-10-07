@@ -58,8 +58,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ),
             $r->toArray()
         );
-#        $r->setBody('<em>Foo</em>');
-#        $this->assertSame('<em>Foo</em>', $r->getBody());
     }
 
     public function testGetStatusCodeAndReason()
@@ -74,8 +72,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ),
             $r->toArray()
         );
-#        $this->assertSame(404, $r->getStatusCode());
-#        $this->assertSame('Not Found', $r->getStatusReason());
     }
 
     public function testSetGetHeader()
@@ -92,8 +88,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ),
             $r->toArray()
         );
-
-#        $this->assertSame('Bar', $r->getHeader('Foo'));
     }
 
     public function testSetHeaders()
@@ -116,15 +110,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ),
             $r->toArray()
         );
-
-#        $this->assertSame(
-#            array(
-#                'Foo' => 'Bar',
-#                'Bar' => 'Baz',
-#                'Content-Type' => 'text/html;charset=UTF-8',
-#            ),
-#            $r->getHeaders()
-#        );
     }
 
     public function testUpdateExistingHeader()
@@ -140,13 +125,6 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             ),
             $r->toArray()
         );
-
-#        $this->assertSame(
-#            array(
-#                'Content-Type' => 'application/json',
-#            ),
-#            $r->getHeaders()
-#        );
     }
 
     public function testAddHeader()
@@ -181,22 +159,4 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             $r->toArray()
         );
     }
-
-#    public function testSendResponse()
-#    {
-#        $this->expectOutputString('Hello World!');
-
-#        $r = new Response();
-#        $r->setHeader('Foo', 'Bar');
-#        $r->setBody('Hello World!');
-#        $r->send();
-
-#        $this->assertSame(
-#            array(
-#                'Content-Type: text/html;charset=UTF-8',
-#                'Foo: Bar',
-#            ),
-#            xdebug_get_headers()
-#        );
-#    }
 }
