@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (...)
+## 1.1.0 (2015-10-07)
 - add `Content-Length` header to responses
 
 ## 1.0.1 (2015-09-07)
