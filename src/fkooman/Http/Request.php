@@ -33,16 +33,20 @@ class Request
     /**
      * Contruct the Request object.
      *
-     * @param array $srv  the server parameters, typically $_SERVER
-     * @param array $post the server POST parameters, typically $_POST
+     * @param array  $srv  the server parameters, typically $_SERVER
+     * @param array  $post the server POST parameters, typically $_POST
+     * @param string $body the raw PUT/POST body
      */
-    public function __construct(array $srv = null, array $post = null)
+    public function __construct(array $srv = null, array $post = null, $body = null)
     {
         if (null === $srv) {
             $srv = $_SERVER;
         }
         if (null === $post) {
             $post = $_POST;
+        }
+        if (null === $body) {
+            $body = @file_get_contents('php://input');
         }
 
         $requiredKeys = array('REQUEST_METHOD');
@@ -53,6 +57,7 @@ class Request
         }
         $this->srv = $srv;
         $this->post = $post;
+        $this->body = $body;
         $this->url = new Url($srv);
     }
 
@@ -153,7 +158,7 @@ class Request
      */
     public function getBody()
     {
-        return @file_get_contents('php://input');
+        return $this->body;
     }
 
     /**

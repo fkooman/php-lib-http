@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.1 (2015-10-13)
+- allow providing raw request body to `Request` object
+
 ## 1.1.0 (2015-10-07)
 - add `Content-Length` header to responses
 

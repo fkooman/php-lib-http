@@ -94,6 +94,20 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($r->getBody());
     }
 
+    public function testBody()
+    {
+        $srv = array(
+            'SERVER_NAME' => 'www.example.org',
+            'SERVER_PORT' => 80,
+            'QUERY_STRING' => '',
+            'REQUEST_URI' => '/index.php/foo',
+            'SCRIPT_NAME' => '/index.php',
+            'REQUEST_METHOD' => 'PUT',
+        );
+        $r = new Request($srv, null, 'Hello World');
+        $this->assertSame('Hello World', $r->getBody());
+    }
+
     public function testMethodOverride()
     {
         $srv = array(
