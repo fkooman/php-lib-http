@@ -27,6 +27,9 @@ class Request
     /** @var array */
     private $post;
 
+    /** @var string */
+    private $body;
+
     /** @var Url */
     private $url;
 
