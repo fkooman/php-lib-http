@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (...)
+## 1.1.2 (2015-10-30)
 - use `rawurldecode` on `PATH_INFO` to match behavior when using php-fpm 
   instead of mod_php.
 
