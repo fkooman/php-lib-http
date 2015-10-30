@@ -148,7 +148,9 @@ class Url
             return '/';
         }
 
-        return $this->srv['PATH_INFO'];
+        return rawurldecode(
+            $this->srv['PATH_INFO']
+        );
     }
 
     /**
