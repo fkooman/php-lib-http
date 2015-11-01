@@ -243,19 +243,4 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
         $u = new Url($srv);
     }
-
-    public function testUrlEncodedPathInfo()
-    {
-        $srv = array(
-            'SERVER_NAME' => 'www.example.org',
-            'SERVER_PORT' => '80',
-            'QUERY_STRING' => '',
-            'PATH_INFO' => '/foo%20bar',
-            'REQUEST_URI' => '/bar/index.php/foo%20bar',
-            'SCRIPT_NAME' => '/bar/index.php',
-        );
-
-        $u = new Url($srv);
-        $this->assertEquals('/foo bar', $u->getPathInfo());
-    }
 }
