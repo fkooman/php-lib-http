@@ -1,5 +1,13 @@
 # Release History
 
+## 1.1.3 (2015-11-01)
+- undo changes of 1.1.2, needs furter investigation to be sure we are
+  taking the right approach.
+
+## 1.1.2 (2015-10-30)
+- use `rawurldecode` on `PATH_INFO` to match behavior when using php-fpm 
+  instead of mod_php.
+
 ## 1.1.1 (2015-10-13)
 - allow providing raw request body to `Request` object
 
