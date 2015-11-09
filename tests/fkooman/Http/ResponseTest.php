@@ -159,4 +159,21 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             $r->toArray()
         );
     }
+
+    public function testSetFile()
+    {
+        $r = new Response();
+        $r->setHeader('Content-Type', 'text/plain');
+        $r->setFile('/foo/bar/baz.txt');
+        $this->assertSame(
+            array(
+                'HTTP/1.1 200 OK',
+                'Content-Type: text/plain',
+                'X-Sendfile: /foo/bar/baz.txt',
+                '',
+                '',
+            ),
+            $r->toArray()
+        );
+    }
 }

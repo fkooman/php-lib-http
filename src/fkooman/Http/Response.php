@@ -59,6 +59,11 @@ class Response
         $this->setHeader('Content-Length', strlen($body));
     }
 
+    public function setFile($fileName)
+    {
+        $this->setHeader('X-SENDFILE', $fileName);
+    }
+
     /**
      * Set headers.
      *
