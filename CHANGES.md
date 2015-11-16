@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.0 (2015-11-17)
+- make `Session` implement `SessionInterface` so applications can use
+  that to make testing much easier
+
 ## 1.2.0 (2015-11-10)
 - add `setFile($fileName)` method to `Response` class which sets the
   `X-SendFile` header (for mod_xsendfile)

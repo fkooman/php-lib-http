@@ -17,7 +17,7 @@
  */
 namespace fkooman\Http;
 
-class Session
+class Session implements SessionInterface
 {
     /** @var string */
     private $ns;
