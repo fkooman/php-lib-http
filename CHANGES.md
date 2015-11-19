@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.1 (...)
+- allow the `description` parameter from `UnauthorizedException` to be
+  missing
+
 ## 1.3.0 (2015-11-17)
 - make `Session` implement `SessionInterface` so applications can use
   that to make testing much easier

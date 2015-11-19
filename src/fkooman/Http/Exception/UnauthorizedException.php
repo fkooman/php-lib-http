@@ -24,7 +24,7 @@ class UnauthorizedException extends HttpException
     /** @var array */
     private $authScheme;
 
-    public function __construct($message, $description, $code = 0, Exception $previous = null)
+    public function __construct($message, $description = null, $code = 0, Exception $previous = null)
     {
         $this->authScheme = array();
         parent::__construct($message, $description, 401, $previous);
