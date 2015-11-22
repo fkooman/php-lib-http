@@ -3,6 +3,8 @@
 ## 1.3.1 (...)
 - allow the `description` parameter from `UnauthorizedException` to be
   missing
+- make `QUERY_STRING` optional in `Uri` class as it is not set by default by 
+  PHP built in web server
 
 ## 1.3.0 (2015-11-17)
 - make `Session` implement `SessionInterface` so applications can use

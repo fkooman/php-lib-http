@@ -65,9 +65,9 @@ class Url
             'SERVER_NAME',
             'SERVER_PORT',
             'REQUEST_URI',
-            'QUERY_STRING',
         );
         $optionalKeys = array(
+            'QUERY_STRING',
             'PATH_INFO',
             'HTTPS',
             'HTTP_X_FORWARDED_PROTO',
@@ -159,7 +159,7 @@ class Url
      */
     public function getQueryString()
     {
-        return $this->srv['QUERY_STRING'];
+        return null === $this->srv['QUERY_STRING'] ? '' : $this->srv['QUERY_STRING'];
     }
 
     /**
@@ -216,7 +216,7 @@ class Url
     public function getRoot()
     {
         $r = $this->srv['REQUEST_URI'];
-        $q = $this->srv['QUERY_STRING'];
+        $q = $this->getQueryString();
         $p = $this->srv['PATH_INFO'];
 
         // remove query string from request uri if set
