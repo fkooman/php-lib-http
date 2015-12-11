@@ -104,9 +104,10 @@ class Url
         if (null !== $h && '' !== $h && 'off' !== $h) {
             return 'https';
         }
-        $p = $this->srv['HTTP_X_FORWARDED_PROTO'];
-        if ('https' === $p) {
-            return 'https';
+
+        // if a reverse proxy set this header we use the value as the scheme
+        if (null !== $this->srv['HTTP_X_FORWARDED_PROTO']) {
+            return $this->srv['HTTP_X_FORWARDED_PROTO'];
         }
 
         return 'http';
@@ -262,12 +263,24 @@ class Url
         $h = $this->getHost();
         $p = $this->getPort();
 
-        // FIXME: we should also inspect the target port in case of HTTP
-        // proxy to see if we need to specify a (different) port
-        if ('https' === $s && 443 === $p || 'http' === $s && 80 === $p) {
-            $authority = sprintf('%s://%s', $s, $h);
-        } else {
+        $usePort = true;
+        if ('https' === $s && 443 === $p) {
+            $usePort = false;
+        }
+        if ('http' === $s && 80 === $p) {
+            $usePort = false;
+        }
+
+        // check for proxy, we now assume that we do not need to specify the
+        // port in the URL
+        if ('https' === $this->srv['HTTP_X_FORWARDED_PROTO']) {
+            $usePort = false;
+        }
+
+        if ($usePort) {
             $authority = sprintf('%s://%s:%s', $s, $h, $p);
+        } else {
+            $authority = sprintf('%s://%s', $s, $h);
         }
 
         return $authority;

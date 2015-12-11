@@ -178,7 +178,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         $srv = array(
             'SERVER_NAME' => 'www.example.org',
-            'SERVER_PORT' => '443',
+            'SERVER_PORT' => '80',
             'HTTP_X_FORWARDED_PROTO' => 'https',
             'QUERY_STRING' => 'foo=bar',
             'REQUEST_URI' => '/bar/index.php?foo=bar',
@@ -188,7 +188,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $u = new Url($srv);
         $this->assertSame('https', $u->getScheme());
         $this->assertSame('www.example.org', $u->getHost());
-        $this->assertSame(443, $u->getPort());
+        $this->assertSame(80, $u->getPort());
         $this->assertSame('/bar/', $u->getRoot());
         $this->assertSame('/', $u->getPathInfo());
         $this->assertSame('https://www.example.org/bar/', $u->getRootUrl());

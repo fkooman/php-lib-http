@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.2 (2015-12-11)
+- fix running behind a HTTP proxy
+
 ## 1.3.1 (2015-11-23)
 - allow the `description` parameter from `UnauthorizedException` to be
   missing
