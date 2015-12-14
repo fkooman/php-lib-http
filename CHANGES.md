@@ -1,5 +1,8 @@
 # Release History
 
+## 1.4.0 (2015-12-14)
+- implement Response::getStatusCode() and Response::isOkay()
+
 ## 1.3.2 (2015-12-11)
 - fix running behind a HTTP proxy
 

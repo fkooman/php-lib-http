@@ -60,6 +60,30 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetStatusCode()
+    {
+        $r = new Response(401);
+        $this->assertSame(401, $r->getStatusCode());
+    }
+
+    public function testIsOkay()
+    {
+        $r = new Response(201);
+        $this->assertTrue($r->isOkay());
+    }
+
+    public function testNotOkay()
+    {
+        $r = new Response(304);
+        $this->assertFalse($r->isOkay());
+    }
+
+    public function testNotOkay1xx()
+    {
+        $r = new Response(100);
+        $this->assertFalse($r->isOkay());
+    }
+
     public function testGetStatusCodeAndReason()
     {
         $r = new Response(404);

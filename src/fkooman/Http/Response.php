@@ -49,6 +49,27 @@ class Response
     }
 
     /**
+     * Get the status code of the response.
+     *
+     * @return int the HTTP response status code
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * Check whether or not the response is in the 2xx range indicating
+     * the request was succesful.
+     *
+     * @return bool whether or not the response is in the 2xx range
+     */
+    public function isOkay()
+    {
+        return 200 <= $this->statusCode && 300 > $this->statusCode;
+    }
+
+    /**
      * Set the response body.
      *
      * @param string $body set the body value, also binary objects permitted.
