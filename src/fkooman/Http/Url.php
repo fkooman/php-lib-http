@@ -67,6 +67,7 @@ class Url
             'REQUEST_URI',
         );
         $optionalKeys = array(
+            'HTTP_HOST',
             'QUERY_STRING',
             'PATH_INFO',
             'HTTPS',
@@ -120,11 +121,17 @@ class Url
      */
     public function getHost()
     {
+        if (!is_null($this->srv['HTTP_HOST'])) {
+            return $this->srv['HTTP_HOST'];
+        }
+
         return $this->srv['SERVER_NAME'];
     }
 
     /**
      * Get the URL port.
+     *
+     * @DEPRECATED
      *
      * @return int the URL port
      */
@@ -259,6 +266,15 @@ class Url
      */
     public function getAuthority()
     {
+        if (!is_null($this->srv['HTTP_HOST'])) {
+            return sprintf(
+                '%s://%s',
+                $this->getScheme(),
+                $this->getHost()
+            );
+        }
+
+        // XXX: LEGACY, remove for 2.0.0
         $s = $this->getScheme();
         $h = $this->getHost();
         $p = $this->getPort();
