@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.0 (...)
+## 1.5.0 (2015-12-21)
 - prefer `HTTP_HOST` in requests to determine the request URL instead of 
   relying on `SERVER_NAME` (`SERVER_NAME` will be removed in 2.0.0)
 - **DEPRECATE** `Url::getPort()`, applications SHOULD not use this (
