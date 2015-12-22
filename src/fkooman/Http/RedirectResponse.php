@@ -19,7 +19,7 @@ namespace fkooman\Http;
 
 class RedirectResponse extends Response
 {
-    public function __construct($redirectUri, $statusCode = 301)
+    public function __construct($redirectUri, $statusCode = 302)
     {
         parent::__construct($statusCode);
         $this->setHeader('Location', $redirectUri);

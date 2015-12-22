@@ -1,5 +1,9 @@
 # Release History
 
+## 1.5.1 (2015-12-22)
+- default `RedirectResponse` status code is `302` now, `301` is dangerous
+  and should only EXPLICITLY be used
+
 ## 1.5.0 (2015-12-21)
 - prefer `HTTP_HOST` in requests to determine the request URL instead of 
   relying on `SERVER_NAME` (`SERVER_NAME` will be removed in 2.0.0)

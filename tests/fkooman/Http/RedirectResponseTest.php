@@ -21,7 +21,7 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testRedirect301Response()
     {
-        $h = new RedirectResponse('http://www.example.org/redirect');
+        $h = new RedirectResponse('http://www.example.org/redirect', 301);
         $this->assertSame(
             array(
                 'HTTP/1.1 301 Moved Permanently',
@@ -36,7 +36,7 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testRedirect302Response()
     {
-        $h = new RedirectResponse('http://www.example.org/redirect302', 302);
+        $h = new RedirectResponse('http://www.example.org/redirect302');
         $this->assertSame(
             array(
                 'HTTP/1.1 302 Found',
