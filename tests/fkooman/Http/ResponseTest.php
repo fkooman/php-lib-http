@@ -49,6 +49,10 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r = new Response();
         $r->setBody('<em>Foo</em>');
         $this->assertSame(
+            '<em>Foo</em>',
+            $r->getBody()
+        );
+        $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/html;charset=UTF-8',

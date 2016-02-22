@@ -26,6 +26,11 @@ class JsonResponse extends Response
         parent::__construct($statusCode, 'application/json');
     }
 
+    public function getBody()
+    {
+        return Json::decode(parent::getBody());
+    }
+
     public function setBody($body)
     {
         parent::setBody(Json::encode($body));

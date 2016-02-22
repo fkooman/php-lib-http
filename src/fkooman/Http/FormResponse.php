@@ -24,6 +24,14 @@ class FormResponse extends Response
         parent::__construct($statusCode, 'application/x-www-form-urlencoded');
     }
 
+    public function getBody()
+    {
+        $parseTo = array();
+        parse_str(parent::getBody(), $parseTo);
+
+        return $parseTo;
+    }
+
     public function setBody($body)
     {
         parent::setBody(

@@ -80,6 +80,16 @@ class Response
         $this->setHeader('Content-Length', strlen($body));
     }
 
+    /**
+     * Get the response body.
+     *
+     * @return string the response body
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
     public function setFile($fileName)
     {
         $this->setHeader('X-SENDFILE', $fileName);
@@ -218,7 +228,7 @@ class Response
             502 => 'Bad Gateway',
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
-            505 => 'HTTP Version Not Supported',100 => 'Continue',
+            505 => 'HTTP Version Not Supported', 100 => 'Continue',
             101 => 'Switching Protocols',
             200 => 'OK',
             201 => 'Created',

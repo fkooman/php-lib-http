@@ -1,5 +1,8 @@
 # Release History
 
+## 1.6.0 (2016-02-22)
+- add `getBody()` to `Response` class
+
 ## 1.5.1 (2015-12-22)
 - default `RedirectResponse` status code is `302` now, `301` is dangerous
   and should only EXPLICITLY be used

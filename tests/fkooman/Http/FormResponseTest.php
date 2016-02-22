@@ -25,7 +25,10 @@ class FormResponseTest extends PHPUnit_Framework_TestCase
     {
         $h = new FormResponse(200);
         $h->setBody(array('foo' => 'bar'));
-
+        $this->assertSame(
+            array('foo' => 'bar'),
+            $h->getBody()
+        );
         $this->assertSame(
             array(
                 'HTTP/1.1 200 OK',
