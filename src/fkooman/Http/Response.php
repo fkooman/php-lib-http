@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\Http;
 
 use InvalidArgumentException;
@@ -112,8 +113,8 @@ class Response
      * Set a header. If it already exists the value is overwritten with the
      * new one.
      *
-     * @param string $keyName the name of the header
-     * @param string $value   the value of the header
+     * @param string     $keyName the name of the header
+     * @param string|int $value   the value of the header
      */
     public function setHeader($keyName, $value)
     {

@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace fkooman\Http;
 
 class FormResponse extends Response
@@ -32,7 +33,12 @@ class FormResponse extends Response
         return $parseTo;
     }
 
-    public function setBody($body)
+    /**
+     * Set the response body.
+     * 
+     * @param array $body the body as a key/value array
+     */
+    public function setBody(array $body)
     {
         parent::setBody(
             http_build_query($body)
