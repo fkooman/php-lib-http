@@ -1,5 +1,8 @@
 # Release History
 
+## 1.6.2 (...)
+- try to fix incompatible types for travis-ci
+
 ## 1.6.1 (2016-03-25)
 - update `fkooman/json`
 - missing `use Exception` from exceptions
