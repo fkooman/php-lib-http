@@ -73,7 +73,7 @@ class Response
     /**
      * Set the response body.
      *
-     * @param string $body set the body value, also binary objects permitted.
+     * @param mixed $body set the body value.
      */
     public function setBody($body)
     {
@@ -84,7 +84,7 @@ class Response
     /**
      * Get the response body.
      *
-     * @return string the response body
+     * @return mixed the response body
      */
     public function getBody()
     {

@@ -33,13 +33,11 @@ class FormResponse extends Response
         return $parseTo;
     }
 
-    /**
-     * Set the response body.
-     * 
-     * @param array $body the body as a key/value array
-     */
-    public function setBody(array $body)
+    public function setBody($body)
     {
+        if (!is_array($body)) {
+            throw new InvalidArgumentException('argument must be array');
+        }
         parent::setBody(
             http_build_query($body)
         );
