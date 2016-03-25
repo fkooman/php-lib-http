@@ -1,5 +1,10 @@
 # Release History
 
+## 1.6.1 (2016-03-25)
+- update `fkooman/json`
+- missing `use Exception` from exceptions
+- small documentation updates
+
 ## 1.6.0 (2016-02-22)
 - add `getBody()` to `Response` class
 
