@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.2 (...)
+## 1.6.2 (2016-03-25)
 - try to fix incompatible types for travis-ci
 
 ## 1.6.1 (2016-03-25)
