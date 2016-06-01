@@ -15,6 +15,7 @@
     "license": "Apache-2.0",
     "name": "fkooman/http",
     "require": {
+        "ext-json": "*",
         "ext-mbstring": "*",
         "ext-session": "*",
         "ext-spl": "*",
