@@ -1,5 +1,9 @@
 # Release History
 
+## 1.6.3 (...)
+- remove `fkooman/json` dependency, directly use `json_encode` and 
+  `json_decode`
+
 ## 1.6.2 (2016-03-25)
 - try to fix incompatible types for travis-ci
 

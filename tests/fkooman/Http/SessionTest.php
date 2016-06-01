@@ -24,7 +24,7 @@ class SessionTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        // needed to the unit test on CentOS 6 
+        // needed to the unit test on CentOS 6
         ini_set('session.save_path', sys_get_temp_dir());
         @session_start();
     }

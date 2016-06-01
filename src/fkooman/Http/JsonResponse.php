@@ -18,7 +18,7 @@
 
 namespace fkooman\Http;
 
-use fkooman\Json\Json;
+use RuntimeException;
 
 class JsonResponse extends Response
 {
@@ -29,11 +29,21 @@ class JsonResponse extends Response
 
     public function getBody()
     {
-        return Json::decode(parent::getBody());
+        $decodedJson = @json_decode(parent::getBody(), true);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new RuntimeException('error decoding JSON');
+        }
+
+        return $decodedJson;
     }
 
     public function setBody($body)
     {
-        parent::setBody(Json::encode($body));
+        $encodedJson = @json_encode($body);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new RuntimeException('error encoding JSON');
+        }
+
+        parent::setBody($encodedJson);
     }
 }
