@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.3 (...)
+## 1.7.0 (2016-06-07)
 - remove `fkooman/json` dependency, directly use `json_encode` and 
   `json_decode`
 
