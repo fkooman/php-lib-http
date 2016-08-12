@@ -16,10 +16,9 @@
     "name": "fkooman/http",
     "require": {
         "ext-json": "*",
-        "ext-mbstring": "*",
         "ext-session": "*",
         "ext-spl": "*",
-        "php": ">=5.3.0"
+        "php": ">=5.4.0"
     },
     "suggest": {
         "fkooman/rest": "Simple PHP library for writing REST services."

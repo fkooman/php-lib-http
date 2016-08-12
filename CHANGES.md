@@ -2,6 +2,8 @@
 
 ## 2.0.0 (...)
 - remove `FormResponse`
+- rework `Url` class to depend more on web server request headers
+- require PHP >= 5.4 now
 
 ## 1.7.0 (2016-06-07)
 - remove `fkooman/json` dependency, directly use `json_encode` and 

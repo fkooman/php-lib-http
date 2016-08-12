@@ -19,7 +19,6 @@
 namespace fkooman\Http;
 
 use RuntimeException;
-use InvalidArgumentException;
 
 /**
  * Url Class.
@@ -62,36 +61,35 @@ class Url
      */
     public function __construct(array $srv)
     {
-        $requiredKeys = array(
-            'SERVER_NAME',
-            'SERVER_PORT',
-            'REQUEST_URI',
-        );
-        $optionalKeys = array(
-            'HTTP_HOST',
-            'QUERY_STRING',
-            'PATH_INFO',
-            'HTTPS',
-            'HTTP_X_FORWARDED_PROTO',
-        );
+        // these MUST be set by web server
+        //
+        // On Apache:
+        //      ServerName https://server.name:443
+        //      UseCanonicalName on
+        //
+        // @see https://httpd.apache.org/docs/2.4/mod/core.html
+        //      ServerName, UseCanonicalName, UseCanonicalPhysicalPort
+        //
+        $requiredKeys = [
+            'REQUEST_SCHEME',   // https|http
+            'SERVER_NAME',      // e.g. foo.example.org
+            'SERVER_PORT',      // e.g. 443
+            'REQUEST_URI',      // e.g. /foo/bar
+        ];
 
-        foreach ($requiredKeys as $key) {
-            if (!array_key_exists($key, $srv)) {
-                throw new RuntimeException(sprintf('missing key "%s"', $key));
+        $optionalKeys = [
+            'PATH_INFO',
+        ];
+
+        foreach ($requiredKeys as $k) {
+            if (!array_key_exists($k, $srv)) {
+                throw new RuntimeException(sprintf('missing key "%s"', $k));
             }
-            // we only want ASCII to avoid the need for mb_* functions
-            if (false === mb_check_encoding($srv[$key], 'US-ASCII')) {
-                // not ASCII
-                throw new InvalidArgumentException('non ASCII characters detected');
-            }
-            $this->srv[$key] = $srv[$key];
+            $this->srv[$k] = $srv[$k];
         }
-        foreach ($optionalKeys as $key) {
-            if (!array_key_exists($key, $srv)) {
-                $this->srv[$key] = null;
-            } else {
-                $this->srv[$key] = $srv[$key];
-            }
+
+        foreach ($optionalKeys as $k) {
+            $this->srv[$k] = array_key_exists($k, $srv) ? $srv[$k] : null;
         }
     }
 
@@ -102,17 +100,7 @@ class Url
      */
     public function getScheme()
     {
-        $h = $this->srv['HTTPS'];
-        if (null !== $h && '' !== $h && 'off' !== $h) {
-            return 'https';
-        }
-
-        // if a reverse proxy set this header we use the value as the scheme
-        if (null !== $this->srv['HTTP_X_FORWARDED_PROTO']) {
-            return $this->srv['HTTP_X_FORWARDED_PROTO'];
-        }
-
-        return 'http';
+        return $this->srv['REQUEST_SCHEME'];
     }
 
     /**
@@ -122,17 +110,11 @@ class Url
      */
     public function getHost()
     {
-        if (!is_null($this->srv['HTTP_HOST'])) {
-            return $this->srv['HTTP_HOST'];
-        }
-
         return $this->srv['SERVER_NAME'];
     }
 
     /**
      * Get the URL port.
-     *
-     * @DEPRECATED
      *
      * @return int the URL port
      */
@@ -153,7 +135,7 @@ class Url
         // On CentOS 7 with PHP 5.4 PATH_INFO is null when rewriting is
         // enabled and you go to the root. On Fedora 22 with PHP 5.6 PATH_INFO
         // is '/' in the same scenario.
-        if (null === $this->srv['PATH_INFO']) {
+        if (is_null($this->srv['PATH_INFO'])) {
             return '/';
         }
 
@@ -168,7 +150,12 @@ class Url
      */
     public function getQueryString()
     {
-        return null === $this->srv['QUERY_STRING'] ? '' : $this->srv['QUERY_STRING'];
+        if (false !== $p = strpos($this->srv['REQUEST_URI'], '?')) {
+            // has query string
+            return substr($this->srv['REQUEST_URI'], $p + 1);
+        }
+
+        return '';
     }
 
     /**
@@ -267,15 +254,6 @@ class Url
      */
     public function getAuthority()
     {
-        if (!is_null($this->srv['HTTP_HOST'])) {
-            return sprintf(
-                '%s://%s',
-                $this->getScheme(),
-                $this->getHost()
-            );
-        }
-
-        // XXX: LEGACY, remove for 2.0.0
         $s = $this->getScheme();
         $h = $this->getHost();
         $p = $this->getPort();
@@ -285,12 +263,6 @@ class Url
             $usePort = false;
         }
         if ('http' === $s && 80 === $p) {
-            $usePort = false;
-        }
-
-        // check for proxy, we now assume that we do not need to specify the
-        // port in the URL
-        if ('https' === $this->srv['HTTP_X_FORWARDED_PROTO']) {
             $usePort = false;
         }
 

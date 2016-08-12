@@ -25,11 +25,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testSimple()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => 'foo=bar',
             'REQUEST_URI' => '/bar/index.php?foo=bar',
-            'SCRIPT_NAME' => '/bar/index.php',
             'REQUEST_METHOD' => 'GET',
             'HTTP_ACCEPT' => '*/*',
         );
@@ -42,11 +41,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testPost()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => 'foo=bar',
             'REQUEST_URI' => '/bar/index.php?foo=bar',
-            'SCRIPT_NAME' => '/bar/index.php',
             'REQUEST_METHOD' => 'POST',
             'HTTP_ACCEPT' => '*/*',
             'CONTENT_LENGTH' => 15,
@@ -83,11 +81,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testInput()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => 'foo=bar',
             'REQUEST_URI' => '/bar/index.php?foo=bar',
-            'SCRIPT_NAME' => '/bar/index.php',
             'REQUEST_METHOD' => 'GET',
             'HTTP_ACCEPT' => '*/*',
         );
@@ -98,11 +95,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testBody()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => '',
             'REQUEST_URI' => '/index.php/foo',
-            'SCRIPT_NAME' => '/index.php',
             'REQUEST_METHOD' => 'PUT',
         );
         $r = new Request($srv, null, 'Hello World');
@@ -112,11 +108,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testMethodOverride()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => '',
             'REQUEST_URI' => '/index.php',
-            'SCRIPT_NAME' => '/index.php',
             'REQUEST_METHOD' => 'GET',
         );
         $r = new Request($srv);
@@ -129,11 +124,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testNonHttpHeader()
     {
         $srv = array(
+            'REQUEST_SCHEME' => 'http',
             'SERVER_NAME' => 'www.example.org',
             'SERVER_PORT' => 80,
-            'QUERY_STRING' => '',
             'REQUEST_URI' => '/index.php',
-            'SCRIPT_NAME' => '/index.php',
             'REQUEST_METHOD' => 'GET',
             'FOO_BAR_BAZ' => 'foo',
         );
