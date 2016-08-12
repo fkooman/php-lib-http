@@ -57,11 +57,6 @@ class UnauthorizedException extends HttpException
         return $this->addHeader(parent::getJsonResponse());
     }
 
-    public function getFormResponse()
-    {
-        return $this->addHeader(parent::getFormResponse());
-    }
-
     public function getHtmlResponse()
     {
         return $this->addHeader(parent::getHtmlResponse());

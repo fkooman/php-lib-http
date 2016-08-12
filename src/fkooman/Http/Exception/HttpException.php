@@ -20,7 +20,6 @@ namespace fkooman\Http\Exception;
 
 use fkooman\Http\Response;
 use fkooman\Http\JsonResponse;
-use fkooman\Http\FormResponse;
 use Exception;
 
 class HttpException extends Exception
@@ -46,19 +45,6 @@ class HttpException extends Exception
         $responseData['error'] = $this->getMessage();
         if (null !== $this->getDescription()) {
             $responseData['error_description'] = $this->getDescription();
-        }
-        $response->setBody($responseData);
-
-        return $response;
-    }
-
-    public function getFormResponse()
-    {
-        $response = new FormResponse($this->getCode());
-        $responseData = array();
-        $responseData['error'] = htmlspecialchars($this->getMessage(), ENT_QUOTES);
-        if (null !== $this->getDescription()) {
-            $responseData['error_description'] = htmlspecialchars($this->getDescription(), ENT_QUOTES);
         }
         $response->setBody($responseData);
 
