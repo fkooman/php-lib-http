@@ -43,22 +43,20 @@ class Request
      */
     public function __construct(array $srv = null, array $post = null, $body = null)
     {
-        if (null === $srv) {
+        if (is_null($srv)) {
             $srv = $_SERVER;
         }
-        if (null === $post) {
+        if (is_null($post)) {
             $post = $_POST;
         }
-        if (null === $body) {
+        if (is_null($body)) {
             $body = @file_get_contents('php://input');
         }
 
-        $requiredKeys = array('REQUEST_METHOD');
-        foreach ($requiredKeys as $key) {
-            if (!array_key_exists($key, $srv)) {
-                throw new RuntimeException(sprintf('missing key "%s"', $key));
-            }
+        if (!array_key_exists('REQUEST_METHOD', $srv)) {
+            throw new RuntimeException('missing key "REQUEST_METHOD"');
         }
+
         $this->srv = $srv;
         $this->post = $post;
         $this->body = $body;
@@ -86,7 +84,7 @@ class Request
     /**
      * Get a specific POST parameter.
      *
-     * @param string $key the POST key parameter to retrieve.
+     * @param string $key the POST key parameter to retrieve
      *
      * @return mixed the string value of the POST parameter key, or null if the
      *               key does not exist
@@ -158,7 +156,7 @@ class Request
     /**
      * Get the HTTP request body.
      *
-     * @return string the HTTP body as a string, can also be binary.
+     * @return string the HTTP body as a string, can also be binary
      */
     public function getBody()
     {

@@ -62,14 +62,16 @@ class Url
     public function __construct(array $srv)
     {
         // these MUST be set by web server
-        //
+
         // On Apache:
         //      ServerName https://server.name:443
         //      UseCanonicalName on
-        //
+
         // @see https://httpd.apache.org/docs/2.4/mod/core.html
         //      ServerName, UseCanonicalName, UseCanonicalPhysicalPort
-        //
+
+        $this->srv = [];
+
         $requiredKeys = [
             'REQUEST_SCHEME',   // https|http
             'SERVER_NAME',      // e.g. foo.example.org
@@ -227,7 +229,7 @@ class Url
 
         // if path info is not set, remove the last path component, it is
         // probably the PHP script
-        if (null === $p) {
+        if (is_null($p)) {
             $r = substr($r, 0, strrpos($r, '/'));
         }
 
