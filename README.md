@@ -2,43 +2,100 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fkooman/php-lib-http/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fkooman/php-lib-http/?branch=master)
 
 # Introduction
-Very simple HTTP helper library to deal with incoming HTTP requests and 
-outgoing HTTP responses.
+
+Simple HTTP helper library.
 
 # Features
-The library handles requests, responses and URLs. 
+
+This library makes it easy to:
+
+- handle HTTP requests;
+- create and send HTTP responses;
+- handle sessions
+
+# API
+
+## Request
+
+Typically you'd use the `Request` class to construct an object based on the 
+current request:
 
     use fkooman\Http\Request;
 
+    // creates the object from $_SERVER, $_POST or php://input
     $r = new Request();
+    
+    // shows the request method, e.g. GET/POST/DELETE
+    echo $r->getMethod();
+
+    // shows the full request URL
     echo $r->getUrl();
 
-The library includes extensive tests.
+    // get POST parameter
+    echo $r->getPostParameter('foo');
 
-# Integration
+    // get HTTP header value
+    echo $r->getHeader('Accept');
 
-The following request headers MUST be set by the web server:
+## Response
 
-- `REQUEST_SCHEME`
-- `SERVER_NAME`
-- `SERVER_PORT`
-- `REQUEST_URI`
-- `REQUEST_METHOD`
+    use fkooman\Http\Response;
+
+    // create the object with response code and content type
+    $r = new Response(200, 'text/plain');
+
+    // set a response header
+    $r->setHeader('X-Foo', 'Bar');
+
+    // set the body content
+    $r->setBody('Simple Plain Text');
+
+    // send the response
+    $r->send();
+
+There is also an `fkooman\Http\JsonResponse` for sending JSON responses, the
+`setBody()` method accepts an `array`. 
+
+For sending redirects to the browser `fkooman\Http\RedirectResponse` is 
+available:
+
+    use fkooman\Http\RedirectResponse;
+
+    // send a (temporary) redirect
+    $r = new RedirectResponse('https://www.example.org/', 302);
+    $r->send();
+
+## Session
+
+    use fkooman\Http\Session;
+
+    // create the session
+    $s = new Session('My Session');
+
+    // set, get, delete variables
+    $s->set('foo', 'bar');
+    $s->get('foo');
+    $s->delete('foo');
+
+    // check whether a variable is set
+    $s->has('foo');
+
+    // destroy a session
+    $s->destroy();
 
 # Installation
+
 You can use this library through [Composer](http://getcomposer.org/) by 
-requiring `fkooman/http`.
+requiring `fkooman/http`:
+
+    $ composer require fkooman/http
 
 # Tests
-You can run the PHPUnit tests if PHPUnit is installed:
 
-    $ phpunit
+Extensive tests for PHPUnit are available.
 
-You need to run Composer **FIRST** in order to be able to run the tests:
-
-    $ php /path/to/composer.phar install
-        
 # License
+
 Licensed under the Apache License, Version 2.0;
 
    http://www.apache.org/licenses/LICENSE-2.0
