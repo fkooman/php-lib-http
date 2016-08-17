@@ -45,15 +45,16 @@ class Request
         if (is_null($srv)) {
             $srv = $_SERVER;
         }
+
+        if (!array_key_exists('REQUEST_METHOD', $srv)) {
+            throw new RuntimeException('missing key "REQUEST_METHOD"');
+        }
+
         if (is_null($post)) {
             $post = $_POST;
         }
         if (is_null($body)) {
             $body = @file_get_contents('php://input');
-        }
-
-        if (!array_key_exists('REQUEST_METHOD', $srv)) {
-            throw new RuntimeException('missing key "REQUEST_METHOD"');
         }
 
         $this->srv = $srv;

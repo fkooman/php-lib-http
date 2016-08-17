@@ -60,8 +60,6 @@ class Url
      */
     public function __construct(array $srv)
     {
-        // these MUST be set by web server
-
         // On Apache:
         //      ServerName https://server.name:443
         //      UseCanonicalName on
@@ -71,11 +69,12 @@ class Url
 
         $this->srv = [];
 
+        // these MUST be set by web server
         $requiredKeys = [
             'REQUEST_SCHEME',   // https|http
             'SERVER_NAME',      // e.g. foo.example.org
             'SERVER_PORT',      // e.g. 443
-            'REQUEST_URI',      // e.g. /foo/bar
+            'REQUEST_URI',      // e.g. /foo/bar?baz=123
         ];
 
         $optionalKeys = [
@@ -168,9 +167,10 @@ class Url
     public function getQueryStringAsArray()
     {
         if ('' === $this->getQueryString()) {
-            return array();
+            return [];
         }
-        $queryStringArray = array();
+
+        $queryStringArray = [];
         parse_str($this->getQueryString(), $queryStringArray);
 
         return $queryStringArray;
@@ -259,18 +259,9 @@ class Url
         $h = $this->getHost();
         $p = $this->getPort();
 
-        $usePort = true;
-        if ('https' === $s && 443 === $p) {
-            $usePort = false;
-        }
-        if ('http' === $s && 80 === $p) {
-            $usePort = false;
-        }
-
-        if ($usePort) {
-            $authority = sprintf('%s://%s:%s', $s, $h, $p);
-        } else {
-            $authority = sprintf('%s://%s', $s, $h);
+        $authority = sprintf('%s://%s', $s, $h);
+        if (('https' === $s && 443 !== $p) || ('http' === $s && 80 !== $p)) {
+            $authority .= sprintf(':%d', $p);
         }
 
         return $authority;
