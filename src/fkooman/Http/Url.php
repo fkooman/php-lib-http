@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 namespace fkooman\Http;
 
 use RuntimeException;
@@ -223,7 +222,7 @@ class Url
         }
 
         // remove path info from request uri if set
-        if (null !== $p && 0 !== strlen($p)) {
+        if (!is_null($p) && 0 !== strlen($p)) {
             $r = substr($r, 0, strlen($r) - strlen($p));
         }
 
