@@ -66,6 +66,11 @@ class Url
 
         // @see https://httpd.apache.org/docs/2.4/mod/core.html
         //      ServerName, UseCanonicalName, UseCanonicalPhysicalPort
+        //
+        // Without UseCanonicalName on the SERVER_NAME variable is set using
+        // the HTTP_HOST header. This is correct in most cases, but if you 
+        // want to use the SERVER_NAME as something reliable under your (web 
+        // server's) control you need to set "UseCanonicalName on"
 
         $this->srv = [];
 
