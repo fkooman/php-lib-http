@@ -5,6 +5,7 @@
 - refactor `Url` class to use different HTTP server headers to determine the 
   exact URL, remove a lot of cruft
 - require PHP >= 5.4 now
+- use mb functions wherever possible
 
 ## 1.7.0 (2016-06-07)
 - remove `fkooman/json` dependency, directly use `json_encode` and 
