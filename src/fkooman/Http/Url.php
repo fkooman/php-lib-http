@@ -152,9 +152,9 @@ class Url
     {
         $requestUri = $this->getRequestUri();
 
-        if (false !== $qPos = strpos($requestUri, '?')) {
+        if (false !== $qPos = mb_strpos($requestUri, '?')) {
             // has query string
-            return substr($requestUri, $qPos + 1);
+            return mb_substr($requestUri, $qPos + 1);
         }
 
         return '';
@@ -221,15 +221,15 @@ class Url
         $pathInfo = $this->getPathInfo();
 
         // remove query string from REQUEST_URI, if set
-        if (false !== $qPos = strpos($requestUri, '?')) {
+        if (false !== $qPos = mb_strpos($requestUri, '?')) {
             // has query string
-            $requestUri = substr($requestUri, 0, $qPos + 1);
+            $requestUri = mb_substr($requestUri, 0, $qPos + 1);
         }
 
         // remove PATH_INFO from REQUEST_URI, if set
-        if (false !== $pPos = strrpos($requestUri, $pathInfo)) {
+        if (false !== $pPos = mb_strrpos($requestUri, $pathInfo)) {
             // has PATH_INFO
-            $requestUri = substr($requestUri, 0, $pPos + 1);
+            $requestUri = mb_substr($requestUri, 0, $pPos + 1);
         }
 
         return $requestUri;

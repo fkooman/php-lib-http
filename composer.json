@@ -16,6 +16,7 @@
     "name": "fkooman/http",
     "require": {
         "ext-json": "*",
+        "ext-mbstring": "*",
         "ext-session": "*",
         "ext-spl": "*",
         "php": ">=5.4"

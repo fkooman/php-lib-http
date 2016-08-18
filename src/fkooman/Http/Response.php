@@ -77,6 +77,7 @@ class Response
     public function setBody($body)
     {
         $this->body = $body;
+        // must be the actual length in bytes, not mb_strlen!
         $this->setHeader('Content-Length', strlen($body));
     }
 
@@ -297,14 +298,16 @@ class Response
         return str_replace(
             ' ',
             '-',
-            ucwords(
-                strtolower(
+            mb_convert_case(
+                mb_convert_case(
                     str_replace(
                         ['_', '-'],
                         ' ',
                         $keyName
-                    )
-                )
+                    ),
+                    MB_CASE_LOWER
+                ),
+                MB_CASE_TITLE
             )
         );
     }

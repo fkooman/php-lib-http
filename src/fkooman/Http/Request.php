@@ -177,21 +177,23 @@ class Request
      */
     public static function normalizeHeaderKeyName($keyName)
     {
-        if (0 === stripos($keyName, 'HTTP_') || 0 === stripos($keyName, 'HTTP-')) {
-            $keyName = substr($keyName, 5);
+        if (0 === mb_stripos($keyName, 'HTTP_') || 0 === mb_stripos($keyName, 'HTTP-')) {
+            $keyName = mb_substr($keyName, 5);
         }
 
         return str_replace(
             ' ',
             '-',
-            ucwords(
-                strtolower(
+            mb_convert_case(
+                mb_convert_case(
                     str_replace(
                         ['_', '-'],
                         ' ',
                         $keyName
-                    )
-                )
+                    ),
+                    MB_CASE_LOWER
+                ),
+                MB_CASE_TITLE
             )
         );
     }

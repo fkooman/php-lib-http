@@ -65,7 +65,7 @@ class UnauthorizedException extends HttpException
     {
         $a = [];
         foreach ($authParams as $k => $v) {
-            if (is_string($k) && is_string($v) && 0 < strlen($k) && 0 < strlen($v)) {
+            if (is_string($k) && is_string($v) && 0 < mb_strlen($k) && 0 < mb_strlen($v)) {
                 $a[] = sprintf('%s="%s"', $k, $v);
             }
         }
