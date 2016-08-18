@@ -85,12 +85,7 @@ class Url
             }
         }
 
-        if (array_key_exists('PATH_INFO', $srv)) {
-            $this->pathInfo = $srv['PATH_INFO'];
-        } else {
-            // XXX or "/"?
-            $this->pathInfo = null;
-        }
+        $this->pathInfo = self::extractPathInfo($srv);
 
         $this->serverName = $srv['SERVER_NAME'];
         $this->serverPort = intval($srv['SERVER_PORT']);
@@ -128,30 +123,23 @@ class Url
     }
 
     /**
-     * Get the PATH_INFO of the request. This is the part after the actual
-     * script name. So for example if the REQUEST_URI is '/index.php/foo' the
-     * PATH_INFO is '/foo'.
+     * Get the REQUEST_URI.
      *
-     * @return string the PATH_INFO or '/' if no PATH_INFO is available
+     * @return string the REQUEST_URI
      */
-    public function getPathInfo()
-    {
-        //        return $this->pathInfo;
-//    }
-
-//        // On CentOS 7 with PHP 5.4 PATH_INFO is null when rewriting is
-//        // enabled and you go to the root. On Fedora 22 with PHP 5.6 PATH_INFO
-//        // is '/' in the same scenario.
-        if (is_null($this->pathInfo)) {
-            return '/';
-        }
-
-        return $this->pathInfo;
-    }
-
     public function getRequestUri()
     {
         return $this->requestUri;
+    }
+
+    /**
+     * Get the PATH_INFO.
+     *
+     * @return string the PATH_INFO
+     */
+    public function getPathInfo()
+    {
+        return $this->pathInfo;
     }
 
     /**
@@ -162,9 +150,11 @@ class Url
      */
     public function getQueryString()
     {
-        if (false !== $p = strpos($this->getRequestUri(), '?')) {
+        $requestUri = $this->getRequestUri();
+
+        if (false !== $qPos = strpos($requestUri, '?')) {
             // has query string
-            return substr($this->getRequestUri(), $p + 1);
+            return substr($requestUri, $qPos + 1);
         }
 
         return '';
@@ -178,18 +168,20 @@ class Url
      */
     public function getQueryStringAsArray()
     {
-        if ('' === $this->getQueryString()) {
+        $queryString = $this->getQueryString();
+
+        if ('' === $queryString) {
             return [];
         }
 
         $queryStringArray = [];
-        parse_str($this->getQueryString(), $queryStringArray);
+        parse_str($queryString, $queryStringArray);
 
         return $queryStringArray;
     }
 
     /**
-     * Return a specific query parameter value.
+     * Return a specific query string parameter value.
      *
      * @param string $key the query parameter key to get
      *
@@ -199,11 +191,12 @@ class Url
     public function getQueryParameter($key)
     {
         $queryStringArray = $this->getQueryStringAsArray();
+
         if (array_key_exists($key, $queryStringArray)) {
             return $queryStringArray[$key];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -224,31 +217,22 @@ class Url
      */
     public function getRoot()
     {
-        $r = $this->getRequestUri();
-        $p = $this->pathInfo; //this->getPathInfo();
+        $requestUri = $this->getRequestUri();
+        $pathInfo = $this->getPathInfo();
 
-        // remove query string from REQUEST_URI if set
-        if (false !== $qPos = strpos($this->getRequestUri(), '?')) {
+        // remove query string from REQUEST_URI, if set
+        if (false !== $qPos = strpos($requestUri, '?')) {
             // has query string
-            $r = substr($r, 0, $qPos + 1);
+            $requestUri = substr($requestUri, 0, $qPos + 1);
         }
 
-        // remove PATH_INFO from REQUEST_URI if set
-        if (!is_null($p) && 0 !== strlen($p)) {
-            $r = substr($r, 0, strlen($r) - strlen($p));
+        // remove PATH_INFO from REQUEST_URI, if set
+        if (false !== $pPos = strrpos($requestUri, $pathInfo)) {
+            // has PATH_INFO
+            $requestUri = substr($requestUri, 0, $pPos + 1);
         }
 
-        // if PATH_INFO is not set, remove the last path component, it is
-        // probably the PHP script
-        if (is_null($p)) {
-            $r = substr($r, 0, strrpos($r, '/'));
-        }
-
-        if (0 === strlen($r) || strrpos($r, '/') !== strlen($r) - 1) {
-            $r .= '/';
-        }
-
-        return $r;
+        return $requestUri;
     }
 
     /**
@@ -267,13 +251,13 @@ class Url
      */
     public function getAuthority()
     {
-        $s = $this->getScheme();
-        $h = $this->getHost();
-        $p = $this->getPort();
+        $scheme = $this->getScheme();
+        $serverName = $this->getHost();
+        $serverPort = $this->getPort();
 
-        $authority = sprintf('%s://%s', $s, $h);
-        if (('https' === $s && 443 !== $p) || ('http' === $s && 80 !== $p)) {
-            $authority .= sprintf(':%d', $p);
+        $authority = sprintf('%s://%s', $scheme, $serverName);
+        if (('https' === $scheme && 443 !== $serverPort) || ('http' === $scheme && 80 !== $serverPort)) {
+            $authority .= sprintf(':%d', $serverPort);
         }
 
         return $authority;
@@ -297,7 +281,7 @@ class Url
 
     private static function extractScheme(array $srv)
     {
-        // prefer REQUEST_SCHEME variable
+        // prefer REQUEST_SCHEME variable if set
         if (array_key_exists('REQUEST_SCHEME', $srv)) {
             return $srv['REQUEST_SCHEME'];
         }
@@ -313,5 +297,17 @@ class Url
 
         // default to "http" if we cannot find anything
         return 'http';
+    }
+
+    private static function extractPathInfo(array $srv)
+    {
+        if (array_key_exists('PATH_INFO', $srv)) {
+            return $srv['PATH_INFO'];
+        }
+
+        // On CentOS 7 with PHP 5.4 PATH_INFO is null when rewriting is
+        // enabled and you go to the root. On Fedora 22 with PHP 5.6
+        // PATH_INFO is '/' in the same scenario.
+        return '/';
     }
 }
