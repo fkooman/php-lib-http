@@ -50,8 +50,20 @@ use RuntimeException;
  */
 class Url
 {
-    /** @var array */
-    private $srv;
+    /** @var string */
+    private $scheme;
+
+    /** @var string */
+    private $serverName;
+
+    /** @var int */
+    private $serverPort;
+
+    /** @var string */
+    private $requestUri;
+
+    /** @var string */
+    private $pathInfo;
 
     /**
      * Create the Url object.
@@ -60,42 +72,29 @@ class Url
      */
     public function __construct(array $srv)
     {
-        // On Apache:
-        //      ServerName https://server.name:443
-        //      UseCanonicalName on
+        $this->scheme = self::extractScheme($srv);
 
-        // @see https://httpd.apache.org/docs/2.4/mod/core.html
-        //      ServerName, UseCanonicalName, UseCanonicalPhysicalPort
-
-        // Without UseCanonicalName on the SERVER_NAME variable is set using
-        // the HTTP_HOST header. This is correct in most cases, but if you
-        // want to use the SERVER_NAME as something reliable under your (web
-        // server's) control you need to set "UseCanonicalName on"
-
-        $this->srv = [];
-
-        // these MUST be set by web server
         $requiredKeys = [
-            'REQUEST_SCHEME',   // https|http
             'SERVER_NAME',      // e.g. foo.example.org
             'SERVER_PORT',      // e.g. 443
             'REQUEST_URI',      // e.g. /foo/bar?baz=123
         ];
-
-        $optionalKeys = [
-            'PATH_INFO',
-        ];
-
         foreach ($requiredKeys as $k) {
             if (!array_key_exists($k, $srv)) {
                 throw new RuntimeException(sprintf('missing key "%s"', $k));
             }
-            $this->srv[$k] = $srv[$k];
         }
 
-        foreach ($optionalKeys as $k) {
-            $this->srv[$k] = array_key_exists($k, $srv) ? $srv[$k] : null;
+        if (array_key_exists('PATH_INFO', $srv)) {
+            $this->pathInfo = $srv['PATH_INFO'];
+        } else {
+            // XXX or "/"?
+            $this->pathInfo = null;
         }
+
+        $this->serverName = $srv['SERVER_NAME'];
+        $this->serverPort = intval($srv['SERVER_PORT']);
+        $this->requestUri = $srv['REQUEST_URI'];
     }
 
     /**
@@ -105,7 +104,7 @@ class Url
      */
     public function getScheme()
     {
-        return $this->srv['REQUEST_SCHEME'];
+        return $this->scheme;
     }
 
     /**
@@ -115,7 +114,7 @@ class Url
      */
     public function getHost()
     {
-        return $this->srv['SERVER_NAME'];
+        return $this->serverName;
     }
 
     /**
@@ -125,7 +124,7 @@ class Url
      */
     public function getPort()
     {
-        return intval($this->srv['SERVER_PORT']);
+        return $this->serverPort;
     }
 
     /**
@@ -137,14 +136,22 @@ class Url
      */
     public function getPathInfo()
     {
-        // On CentOS 7 with PHP 5.4 PATH_INFO is null when rewriting is
-        // enabled and you go to the root. On Fedora 22 with PHP 5.6 PATH_INFO
-        // is '/' in the same scenario.
-        if (is_null($this->srv['PATH_INFO'])) {
+        //        return $this->pathInfo;
+//    }
+
+//        // On CentOS 7 with PHP 5.4 PATH_INFO is null when rewriting is
+//        // enabled and you go to the root. On Fedora 22 with PHP 5.6 PATH_INFO
+//        // is '/' in the same scenario.
+        if (is_null($this->pathInfo)) {
             return '/';
         }
 
-        return $this->srv['PATH_INFO'];
+        return $this->pathInfo;
+    }
+
+    public function getRequestUri()
+    {
+        return $this->requestUri;
     }
 
     /**
@@ -155,9 +162,9 @@ class Url
      */
     public function getQueryString()
     {
-        if (false !== $p = strpos($this->srv['REQUEST_URI'], '?')) {
+        if (false !== $p = strpos($this->getRequestUri(), '?')) {
             // has query string
-            return substr($this->srv['REQUEST_URI'], $p + 1);
+            return substr($this->getRequestUri(), $p + 1);
         }
 
         return '';
@@ -217,21 +224,21 @@ class Url
      */
     public function getRoot()
     {
-        $r = $this->srv['REQUEST_URI'];
-        $q = $this->getQueryString();
-        $p = $this->srv['PATH_INFO'];
+        $r = $this->getRequestUri();
+        $p = $this->pathInfo; //this->getPathInfo();
 
-        // remove query string from request uri if set
-        if (0 !== strlen($q)) {
-            $r = substr($r, 0, strlen($r) - strlen($q) - 1);
+        // remove query string from REQUEST_URI if set
+        if (false !== $qPos = strpos($this->getRequestUri(), '?')) {
+            // has query string
+            $r = substr($r, 0, $qPos + 1);
         }
 
-        // remove path info from request uri if set
+        // remove PATH_INFO from REQUEST_URI if set
         if (!is_null($p) && 0 !== strlen($p)) {
             $r = substr($r, 0, strlen($r) - strlen($p));
         }
 
-        // if path info is not set, remove the last path component, it is
+        // if PATH_INFO is not set, remove the last path component, it is
         // probably the PHP script
         if (is_null($p)) {
             $r = substr($r, 0, strrpos($r, '/'));
@@ -277,7 +284,7 @@ class Url
      */
     public function toString()
     {
-        return $this->getAuthority().$this->srv['REQUEST_URI'];
+        return $this->getAuthority().$this->getRequestUri();
     }
 
     /**
@@ -286,5 +293,25 @@ class Url
     public function __toString()
     {
         return $this->toString();
+    }
+
+    private static function extractScheme(array $srv)
+    {
+        // prefer REQUEST_SCHEME variable
+        if (array_key_exists('REQUEST_SCHEME', $srv)) {
+            return $srv['REQUEST_SCHEME'];
+        }
+
+        // fallback to HTTPS variable
+        if (array_key_exists('HTTPS', $srv)) {
+            if ('' !== $srv['HTTPS'] && 'off' !== $srv['HTTPS']) {
+                return 'https';
+            }
+
+            return 'http';
+        }
+
+        // default to "http" if we cannot find anything
+        return 'http';
     }
 }

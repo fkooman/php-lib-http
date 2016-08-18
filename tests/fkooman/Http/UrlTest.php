@@ -41,6 +41,19 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $this->assertSame('bar', $u->getQueryParameter('foo'));
     }
 
+    public function testHttp2()
+    {
+        $srv = array(
+            'HTTPS' => '',
+            'SERVER_NAME' => 'www.example.org',
+            'SERVER_PORT' => '80',
+            'REQUEST_URI' => '/bar/index.php?foo=bar',
+        );
+
+        $u = new Url($srv);
+        $this->assertSame('http://www.example.org/bar/index.php?foo=bar', $u->toString());
+    }
+
     public function testHttps()
     {
         $srv = array(
@@ -60,6 +73,19 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $this->assertSame(array('foo' => 'bar'), $u->getQueryStringAsArray());
         $this->assertSame('bar', $u->getQueryParameter('foo'));
         $this->assertSame('https://www.example.org/bar/index.php?foo=bar', $u->__toString());
+        $this->assertSame('https://www.example.org/bar/index.php?foo=bar', $u->toString());
+    }
+
+    public function testHttps2()
+    {
+        $srv = array(
+            'HTTPS' => 'on',
+            'SERVER_NAME' => 'www.example.org',
+            'SERVER_PORT' => '443',
+            'REQUEST_URI' => '/bar/index.php?foo=bar',
+        );
+
+        $u = new Url($srv);
         $this->assertSame('https://www.example.org/bar/index.php?foo=bar', $u->toString());
     }
 
@@ -186,7 +212,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException RuntimeException
-     * @expectedExceptionMessage missing key "REQUEST_SCHEME"
+     * @expectedExceptionMessage missing key "SERVER_NAME"
      */
     public function testMissingKey()
     {

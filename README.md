@@ -90,6 +90,21 @@ requiring `fkooman/http`:
 
     $ composer require fkooman/http
 
+# Deployment Considerations
+
+## Apache
+
+    ServerName https://server.name:443
+    UseCanonicalName on
+
+See https://httpd.apache.org/docs/2.4/mod/core.html for `ServerName`, 
+`UseCanonicalName` and `UseCanonicalPhysicalPort`.
+
+Without `UseCanonicalName on` the `SERVER_NAME` variable is set using the 
+`HTTP_HOST` header. This is correct in most cases, but if you want to use 
+the `SERVER_NAME` as something reliable under your web server's control you 
+need to set `UseCanonicalName on`.
+
 # Tests
 
 Extensive tests for PHPUnit are available.
