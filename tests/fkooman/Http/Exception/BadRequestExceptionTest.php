@@ -27,25 +27,25 @@ class BadRequestExceptionTest extends PHPUnit_Framework_TestCase
         $this->assertSame(400, $e->getCode());
         $this->assertSame('foo', $e->getMessage());
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 400 Bad Request',
                 'Content-Type: application/json',
                 'Content-Length: 15',
                 '',
                 '{"error":"foo"}',
-            ),
+            ],
             $e->getJsonResponse()->toArray()
         );
 
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 400 Bad Request',
                 'Content-Type: text/html;charset=UTF-8',
                 'Content-Length: 136',
                 '',
                 '<!DOCTYPE HTML><html><head><meta charset="utf-8"><title>400 Bad Request</title></head><body><h1>Bad Request</h1><p>foo</p></body></html>',
 
-            ),
+            ],
             $e->getHtmlResponse()->toArray()
         );
     }

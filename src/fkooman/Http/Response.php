@@ -42,9 +42,9 @@ class Response
             throw new InvalidArgumentException('invalid status code');
         }
         $this->statusCode = $statusCode;
-        $this->headers = array(
+        $this->headers = [
             'Content-Type' => $contentType,
-        );
+        ];
         $this->body = '';
     }
 
@@ -165,7 +165,7 @@ class Response
      */
     public function toArray()
     {
-        $output = array();
+        $output = [];
         $output[] = sprintf(
             'HTTP/1.1 %s %s',
             $this->statusCode,
@@ -187,7 +187,7 @@ class Response
      */
     public static function codeToReason($statusCode)
     {
-        $reasonList = array(
+        $reasonList = [
             100 => 'Continue',
             101 => 'Switching Protocols',
             200 => 'OK',
@@ -269,7 +269,7 @@ class Response
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported',
-        );
+        ];
 
         if (!array_key_exists($statusCode, $reasonList)) {
             return false;
@@ -300,7 +300,7 @@ class Response
             ucwords(
                 strtolower(
                     str_replace(
-                        array('_', '-'),
+                        ['_', '-'],
                         ' ',
                         $keyName
                     )

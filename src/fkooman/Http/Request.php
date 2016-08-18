@@ -145,7 +145,7 @@ class Request
      */
     public function getHeaders()
     {
-        $headers = array();
+        $headers = [];
         foreach ($this->srv as $k => $v) {
             $headers[self::normalizeHeaderKeyName($k)] = $v;
         }
@@ -187,7 +187,7 @@ class Request
             ucwords(
                 strtolower(
                     str_replace(
-                        array('_', '-'),
+                        ['_', '-'],
                         ' ',
                         $keyName
                     )

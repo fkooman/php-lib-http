@@ -23,13 +23,13 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     {
         $h = new RedirectResponse('http://www.example.org/redirect', 301);
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 301 Moved Permanently',
                 'Content-Type: text/html;charset=UTF-8',
                 'Location: http://www.example.org/redirect',
                 '',
                 '',
-            ),
+            ],
             $h->toArray()
         );
     }
@@ -38,13 +38,13 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     {
         $h = new RedirectResponse('http://www.example.org/redirect302');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 302 Found',
                 'Content-Type: text/html;charset=UTF-8',
                 'Location: http://www.example.org/redirect302',
                 '',
                 '',
-            ),
+            ],
             $h->toArray()
         );
     }

@@ -23,33 +23,33 @@ class MethodNotAllowedExceptionTest extends PHPUnit_Framework_TestCase
 {
     public function testMethodNotAllowedException()
     {
-        $e = new MethodNotAllowedException('DELETE', array('GET', 'POST'));
+        $e = new MethodNotAllowedException('DELETE', ['GET', 'POST']);
 
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 405 Method Not Allowed',
                 'Content-Type: application/json',
                 'Content-Length: 39',
                 'Allow: GET,POST',
                 '',
                 '{"error":"method DELETE not supported"}',
-            ),
+            ],
             $e->getJsonResponse()->toArray()
         );
     }
 
     public function testNoMethodAllowed()
     {
-        $e = new MethodNotAllowedException('GET', array());
+        $e = new MethodNotAllowedException('GET', []);
 
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 405 Method Not Allowed',
                 'Content-Type: application/json',
                 'Content-Length: 36',
                 '',
                 '{"error":"method GET not supported"}',
-            ),
+            ],
             $e->getJsonResponse()->toArray()
         );
     }

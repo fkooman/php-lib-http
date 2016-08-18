@@ -2,7 +2,7 @@
 
 ## 2.0.0 (...)
 - remove `FormResponse`
-- refactor `Url` class to use different HTTP server headers to determin the 
+- refactor `Url` class to use different HTTP server headers to determine the 
   exact URL, remove a lot of cruft
 - require PHP >= 5.4 now
 

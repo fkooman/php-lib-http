@@ -24,19 +24,19 @@ class JsonResponseTest extends PHPUnit_Framework_TestCase
     public function testResponse()
     {
         $h = new JsonResponse(200);
-        $h->setBody(array('foo' => 'bar'));
+        $h->setBody(['foo' => 'bar']);
         $this->assertSame(
-            array('foo' => 'bar'),
+            ['foo' => 'bar'],
             $h->getBody()
         );
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'Content-Length: 13',
                 '',
                 '{"foo":"bar"}',
-            ),
+            ],
             $h->toArray()
         );
     }

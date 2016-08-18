@@ -25,17 +25,17 @@ class Session implements SessionInterface
     /** @var array */
     private $sessionOptions;
 
-    public function __construct($ns = 'MySession', array $sessionOptions = array())
+    public function __construct($ns = 'MySession', array $sessionOptions = [])
     {
         $this->ns = $ns;
 
-        $defaultOptions = array(
+        $defaultOptions = [
             'lifetime' => 0,
             'path' => '/',
             'domain' => '',
             'secure' => true,
             'httponly' => true,
-        );
+        ];
 
         $this->sessionOptions = array_merge($defaultOptions, $sessionOptions);
     }

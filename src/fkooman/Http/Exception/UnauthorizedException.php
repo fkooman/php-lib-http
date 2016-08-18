@@ -27,11 +27,11 @@ class UnauthorizedException extends HttpException
 
     public function __construct($message, $description = null, $code = 0, Exception $previous = null)
     {
-        $this->authScheme = array();
+        $this->authScheme = [];
         parent::__construct($message, $description, 401, $previous);
     }
 
-    public function addScheme($scheme, array $authParams = array())
+    public function addScheme($scheme, array $authParams = [])
     {
         if (!array_key_exists('realm', $authParams)) {
             $authParams['realm'] = 'Protected Resource';
@@ -63,7 +63,7 @@ class UnauthorizedException extends HttpException
 
     public static function authParamsToString(array $authParams)
     {
-        $a = array();
+        $a = [];
         foreach ($authParams as $k => $v) {
             if (is_string($k) && is_string($v) && 0 < strlen($k) && 0 < strlen($v)) {
                 $a[] = sprintf('%s="%s"', $k, $v);

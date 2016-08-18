@@ -40,7 +40,7 @@ class HttpException extends Exception
     public function getJsonResponse()
     {
         $response = new JsonResponse($this->getCode());
-        $responseData = array();
+        $responseData = [];
         $responseData['error'] = $this->getMessage();
         if (null !== $this->getDescription()) {
             $responseData['error_description'] = $this->getDescription();

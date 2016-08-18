@@ -25,12 +25,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     {
         $r = new Response();
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/html;charset=UTF-8',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -53,13 +53,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
             $r->getBody()
         );
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/html;charset=UTF-8',
                 'Content-Length: 12',
                 '',
                 '<em>Foo</em>',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -92,12 +92,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     {
         $r = new Response(404);
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 404 Not Found',
                 'Content-Type: text/html;charset=UTF-8',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -107,13 +107,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r = new Response();
         $r->setHeader('Foo', 'Bar');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/html;charset=UTF-8',
                 'Foo: Bar',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -122,20 +122,20 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     {
         $r = new Response();
         $r->setHeaders(
-            array(
+            [
                 'Foo' => 'Bar',
                 'Bar' => 'Baz',
-            )
+            ]
         );
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/html;charset=UTF-8',
                 'Foo: Bar',
                 'Bar: Baz',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -145,12 +145,12 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r = new Response();
         $r->setHeader('CONTENT-TYPE', 'application/json');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -161,13 +161,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r->setHeader('Link', '<https://example.org/micropub>; rel="micropub"');
         $r->addHeader('Link', '<https://example.net/micropub>; rel="micropub"');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'Link: <https://example.org/micropub>; rel="micropub", <https://example.net/micropub>; rel="micropub"',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -177,13 +177,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r = new Response(200, 'application/json');
         $r->addHeader('Link', '<https://example.net/micropub>; rel="micropub"');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: application/json',
                 'Link: <https://example.net/micropub>; rel="micropub"',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
@@ -194,13 +194,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase
         $r->setHeader('Content-Type', 'text/plain');
         $r->setFile('/foo/bar/baz.txt');
         $this->assertSame(
-            array(
+            [
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/plain',
                 'X-Sendfile: /foo/bar/baz.txt',
                 '',
                 '',
-            ),
+            ],
             $r->toArray()
         );
     }
