@@ -77,7 +77,7 @@ class Response
     public function setBody($body)
     {
         $this->body = $body;
-        // must be the actual length in bytes, not mb_strlen!
+        // must be the actual length in bytes, so not mb_strlen!
         $this->setHeader('Content-Length', strlen($body));
     }
 
