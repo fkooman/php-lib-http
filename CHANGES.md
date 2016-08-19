@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (...)
+## 2.0.0 (2016-08-19)
 - remove `FormResponse`
 - refactor `Url` class to use different HTTP server headers to determine the 
   exact URL, remove a lot of cruft
