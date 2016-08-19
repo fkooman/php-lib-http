@@ -91,6 +91,11 @@ class Response
         return $this->body;
     }
 
+    /**
+     * Return a file using the X-SendFile header so the web server will take
+     * care of sending it to the client.
+     * @param string $fileName the full absolute path to the file
+     */
     public function setFile($fileName)
     {
         $this->setHeader('X-SENDFILE', $fileName);
@@ -272,11 +277,11 @@ class Response
             505 => 'HTTP Version Not Supported',
         ];
 
-        if (!array_key_exists($statusCode, $reasonList)) {
-            return false;
+        if(array_key_exists($statusCode, $reasonList)) {
+            return $reasonList[$statusCode];
         }
 
-        return $reasonList[$statusCode];
+        return false;
     }
 
     /**

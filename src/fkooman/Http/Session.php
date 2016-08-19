@@ -40,6 +40,12 @@ class Session implements SessionInterface
         $this->sessionOptions = array_merge($defaultOptions, $sessionOptions);
     }
 
+    /**
+     * Start the session.
+     *
+     * We only start the session when it is actually being used by any of the
+     * session methods.
+     */
     private function startSession()
     {
         if ('' === session_id()) {
